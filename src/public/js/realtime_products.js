@@ -3,7 +3,7 @@ const socket = io();
 socket.emit("hola", "holaaa server");
 
 socket.on("products", (data) => {
-    console.log("data:", data.docs);
+    console.log("data:", data);
   if (data === false) {
     Swal.fire({
       title: "El código de producto ya esta en uso",
@@ -11,7 +11,7 @@ socket.on("products", (data) => {
     });
   } else {
     console.log("socketProductos");
-    renderProducts(data.docs);
+    renderProducts(data);
   }
 });
 
@@ -25,7 +25,7 @@ const renderProducts = (productos) => {
     productos.forEach((product) => {
       const card = document.createElement("div");
       card.classList.add("card");
-      card.innerHTML = `<div><b>Id</b>: ${product.id}</div><div><b>Producto:</b> ${product.title}</div><div><b>Descripción:</b> ${product.description}</div><div><b>Precio:</b> $${product.price}</div><div><b>Stock:</b> $${product.stock}</div> <button class="button fixMargin"> E L I M I N A R </button>`;
+      card.innerHTML = `<div><b>Codigo de producto</b>: ${product.code}</div><div><b>Producto:</b> ${product.title}</div><div><b>Descripción:</b> ${product.description}</div><div><b>Precio:</b> $${product.price}</div><div><b>Stock:</b> $${product.stock}</div> <button class="button fixMargin"> E L I M I N A R </button>`;
       productsContainer.appendChild(card);
       card.querySelector("button").addEventListener("click", () => {
         deleteProduct(product.id);

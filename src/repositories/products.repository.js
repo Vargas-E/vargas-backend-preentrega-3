@@ -10,6 +10,15 @@ class ProductsRepository {
     }
   }
 
+  async getProductsNoPaginate() {
+    try {
+      const products = await ProductModel.find();
+      return products;
+    } catch (err) {
+      throw new Error(`Error mongo (get products): ${err}`);
+    }
+  }
+
   async getProductById(id) {
     try {
       const product = await ProductModel.findById(id).lean();

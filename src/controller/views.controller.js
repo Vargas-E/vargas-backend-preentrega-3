@@ -100,13 +100,13 @@ class ViewsController {
     const dtoUser = new UserDto(user);
     try {
       io.on("connection", async (socket) => {
-        socket.emit("products", await productsServices.getProducts(req.query));
+        socket.emit("products", await productsServices.getProductsNoPaginate());
 
         socket.on("deleteProduct", async (id) => {
           await productsServices.deleteProductById(id);
           io.sockets.emit(
             "products",
-            await productsServices.getProducts(req.query)
+            await productsServices.getProductsNoPaginate()
           );
         });
 
@@ -117,7 +117,7 @@ class ViewsController {
           }
           io.sockets.emit(
             "products",
-            await productsServices.getProducts(req.query)
+            await productsServices.getProductsNoPaginate()
           );
         });
       });

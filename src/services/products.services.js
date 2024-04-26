@@ -31,6 +31,11 @@ class ProductsService {
     return products;
   }
 
+  async getProductsNoPaginate() {
+    const products = await productsRepository.getProductsNoPaginate();
+    return products;
+  }
+
   async getProductById(id) {
     const product = await productsRepository.getProductById(id);
     if (!product) {
