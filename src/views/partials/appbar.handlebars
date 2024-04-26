@@ -1,0 +1,16 @@
+{{{log user}}}
+<div class="appbar">
+  <div class="logoGreetingContainer">
+    <div class="navButton">LOGO</div>
+    <div class="greeting navButton">WELCOME  <p class="userData">{{user.first_name}}</p>! YOU HAVE THE <p class="userData">{{user.rol}}</p> ROL</div>
+  </div>
+
+  <div class="menuButtons">
+    <div><a class="navButton {{#if active.products}}active{{/if}}" href="/views/products">PRODUCTS</a></div>
+    <div><a class="navButton {{#if active.cart}}active{{/if}}" href="/views/cart">CART</a></div>
+    <div><a class="navButton {{#if active.chat}}active{{/if}}" href="/views/chat">CHAT</a></div>
+    <div><a class="navButton {{#if active.profile}}active{{/if}}" href="/views/profile">PROFILE</a></div>
+    <div><a class="navButton" href="/api/auth/logout">LOGOUT</a></div>
+  </div>
+</div>
+
