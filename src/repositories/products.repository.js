@@ -71,7 +71,7 @@ class ProductsRepository {
         thumbnails: newProduct.thumbnails || [],
       });
       product.save();
-      return newProduct;
+      return product;
     } catch (err) {
       console.log("Error al agregar producto:", err);
       throw new Error(`Error mongo (add product): ${err}`);
@@ -82,7 +82,7 @@ class ProductsRepository {
     try {
       const newProduct = await ProductModel.findByIdAndUpdate(id, productData);
       if (!newProduct) {
-        throw "Product to update not found";
+        return "Product to update not found";
       }
       console.log("Producto actualizado");
       return newProduct;

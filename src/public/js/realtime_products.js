@@ -1,13 +1,17 @@
 const socket = io();
 
+const cancelButton = document.getElementById("btnCancelEdit");
+const submitButton = document.getElementById("btnSubmitEdit");
+let editedProduct;
+
 socket.emit("hola", "holaaa server");
 
 socket.on("products", (data) => {
-    console.log("data:", data);
+  console.log("data:", data);
   if (data === false) {
     Swal.fire({
       title: "El código de producto ya esta en uso",
-      confirmButtonColor: '#1A3A3A',
+      confirmButtonColor: "#1A3A3A",
     });
   } else {
     console.log("socketProductos");
@@ -17,19 +21,38 @@ socket.on("products", (data) => {
 
 // render products array
 const renderProducts = (productos) => {
-    console.log("products:", productos);
+  console.log("products:", productos);
   const productsContainer = document.getElementById("productsContainer");
   if (!!productsContainer) {
     productsContainer.innerHTML = "";
-    
+
     productos.forEach((product) => {
       const card = document.createElement("div");
-      card.classList.add("card");
-      card.innerHTML = `<div><b>Codigo de producto</b>: ${product.code}</div><div><b>Producto:</b> ${product.title}</div><div><b>Descripción:</b> ${product.description}</div><div><b>Precio:</b> $${product.price}</div><div><b>Stock:</b> $${product.stock}</div> <button class="button fixMargin"> E L I M I N A R </button>`;
-      productsContainer.appendChild(card);
-      card.querySelector("button").addEventListener("click", () => {
-        deleteProduct(product.id);
+      card.classList.add("cartCard");
+      card.classList.add("clickable");
+      card.addEventListener("click", () => {
+        editProduct(product);
       });
+      card.innerHTML = `<div class="cartCardTextContainer">
+          <div>Product: ${product.title}</div>
+          <div>Product code: ${product.code}</div>
+          <div>Description: ${product.description}</div>
+          <div>Price: ${product.price}</div>
+          <div>Current stock: ${product.stock}</div>
+          </div>
+          <div class="cartCardImageContainer"></div>`;
+      const icon = document.createElement("button");
+      icon.classList.add("deleteButtonCart");
+      icon.innerHTML = "DEL";
+      icon.addEventListener("click", () => {
+        deleteProduct(product._id);
+      });
+
+      const cardAndIcon = document.createElement("div");
+      cardAndIcon.classList.add("cardAndIcon");
+      cardAndIcon.appendChild(card);
+      cardAndIcon.appendChild(icon);
+      productsContainer.appendChild(cardAndIcon);
     });
   }
 };
@@ -37,6 +60,20 @@ const renderProducts = (productos) => {
 const deleteProduct = (id) => {
   socket.emit("deleteProduct", id);
 };
+
+if (!!document.getElementById("btnSubmitEdit")) {
+  document.getElementById("btnSubmitEdit").addEventListener("click", (e) => {
+    e.preventDefault();
+    addProduct(true);
+  });
+}
+
+if (!!document.getElementById("btnCancelEdit")) {
+  document.getElementById("btnCancelEdit").addEventListener("click", (e) => {
+    e.preventDefault();
+    cancelEdit();
+  });
+}
 
 // add
 if (!!document.getElementById("btnSend")) {
@@ -46,7 +83,7 @@ if (!!document.getElementById("btnSend")) {
   });
 }
 
-const addProduct = () => {
+const addProduct = (edit) => {
   const newProduct = {
     title: document.getElementById("title").value.trim(),
     description: document.getElementById("description").value.trim(),
@@ -58,8 +95,6 @@ const addProduct = () => {
     status: document.getElementById("status").value === "true" ? true : false,
     thumbnails: [],
   };
-
-  console.log(typeof newProduct["status"]);
   if (
     Object.keys(newProduct).some((e) =>
       typeof newProduct[e] == "boolean" ? false : !!!newProduct[e]
@@ -68,17 +103,78 @@ const addProduct = () => {
     Swal.fire({
       title: "Error en el form!",
       text: "Alguno de los campos esta vacio, o el precio se asigno como 0. Revisa los campos por favor.",
-      confirmButtonColor: '#1A3A3A',
-
-
+      confirmButtonColor: "#1A3A3A",
     });
     console.log("error en input");
   } else {
-    console.log("newProduct", newProduct);
-    socket.emit("addProduct", newProduct);
-    Swal.fire({
-      title: "Producto agregado!",
-      confirmButtonColor: '#1A3A3A',
-    });
+    if (edit == true) {
+      socket.emit("updateProduct", {
+        productData: newProduct,
+        productId: editedProduct["_id"],
+      });
+      Swal.fire({
+        title: `Product with code ${editedProduct.code} updated!`,
+        confirmButtonColor: "#1A3A3A",
+      });
+    } else {
+      console.log("addProduct");
+      socket.emit("addProduct", newProduct);
+      Swal.fire({
+        title: "Producto agregado!",
+        confirmButtonColor: "#1A3A3A",
+      });
+    }
+    cancelEdit();
   }
+};
+
+const editProduct = (product) => {
+  editedProduct = product;
+  const components = {
+    title: document.getElementById("title"),
+    price: document.getElementById("price"),
+    img: document.getElementById("img"),
+    code: document.getElementById("code"),
+    stock: document.getElementById("stock"),
+    category: document.getElementById("category"),
+    status: document.getElementById("status"),
+    description: document.getElementById("description"),
+  };
+
+  const nameArr = Object.keys(components);
+  nameArr.forEach((e) => {
+    components[e].value = product[e];
+  });
+
+  components.code.disabled = true;
+  cancelButton.classList.remove("hidden");
+  submitButton.classList.remove("hidden");
+
+  const addButton = document.getElementById("btnSend");
+  addButton.classList.add("hidden");
+};
+
+const cancelEdit = () => {
+  editedProduct = null;
+  const components = {
+    title: document.getElementById("title"),
+    price: document.getElementById("price"),
+    img: document.getElementById("img"),
+    code: document.getElementById("code"),
+    stock: document.getElementById("stock"),
+    category: document.getElementById("category"),
+    status: document.getElementById("status"),
+    description: document.getElementById("description"),
+  };
+
+  const nameArr = Object.keys(components);
+  nameArr.forEach((e) => {
+    e == "status" ? (components[e].value = "true") : (components[e].value = "");
+  });
+
+  components.code.disabled = false;
+  cancelButton.classList.add("hidden");
+  submitButton.classList.add("hidden");
+  const addButton = document.getElementById("btnSend");
+  addButton.classList.remove("hidden");
 };

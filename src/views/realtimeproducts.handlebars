@@ -1,42 +1,86 @@
 {{> appbar_admin}}
 <div style="font-family: Roboto">
-
-  <h1>Productos en tiempo real</h1>
-
   <div class="containerReal">
-    <div id="productsContainer"></div>
+    <div class="realtimeProductsContainer" id="productsContainer"></div>
     <form class="formReal">
-      <label class="labelReal" for="title">Título</label>
-      <input class="inputReal" type="text" id="title" placeHolder="Título" />
 
-      <label class="labelReal" for="description">Descripción</label>
-      <input
-        class="inputReal"
-        type="text"
-        id="description"
-        placeHolder="Descripción"
-      />
-    
-      <label class="labelReal" for="price">Precio</label>
-      <input class="inputReal" type="number" id="price" placeHolder="Precio" />
+      <div class="formRow">
+        <div class="labelAndInput">
+          <label class="labelReal" for="title">Título</label>
+          <input
+            class="inputReal"
+            type="text"
+            id="title"
+            placeHolder="Título"
+          />
+        </div>
+        <div class="labelAndInput">
+          <label class="labelReal" for="price">Precio</label>
+          <input
+            class="inputReal"
+            type="number"
+            id="price"
+            placeHolder="Precio"
+          />
+        </div>
+      </div>
 
-      <label class="labelReal" for="img">Img</label>
-      <input class="inputReal" type="text" id="img" placeHolder="Sin imagen" />
+      <div class="formRow">
+        <div class="labelAndInput">
+          <label class="labelReal" for="img">Img</label>
+          <input
+            class="inputReal"
+            type="text"
+            id="img"
+            placeHolder="Sin imagen"
+          />
+        </div>
+        <div class="labelAndInput">
+          <label class="labelReal" for="code">Código</label>
+          <input class="inputReal" type="text" id="code" placeHolder="Código" />
+        </div>
+      </div>
 
-      <label class="labelReal" for="code">Código</label>
-      <input class="inputReal" type="text" id="code" placeHolder="Código" />
+      <div class="formRow">
+        <div class="labelAndInput">
+          <label class="labelReal" for="stock">Stock</label>
+          <input
+            class="inputReal"
+            type="number"
+            id="stock"
+            placeHolder="Stock"
+          />
+        </div>
+        <div class="labelAndInput">
+          <label class="labelReal" for="category">Categoria</label>
+          <input
+            class="inputReal"
+            type="text"
+            id="category"
+            placeHolder="Categoria"
+          />
+        </div>
+      </div>
 
-      <label class="labelReal" for="stock">Stock</label>
-      <input class="inputReal" type="number" id="stock" placeHolder="Stock" />
-
-      <label class="labelReal" for="category">Categoria</label>
-      <input class="inputReal" type="text" id="category" placeHolder="Categoria" />
-
-      <label class="labelReal" for="status">Status</label>
-      <select class="inputReal" id="status">
-        <option value="true"> Activo </option>
-        <option value="false"> Inactivo </option>
-      </select>
+      <div class="formRow">
+        <div class="labelAndInput">
+          <label class="labelReal" for="status">Status</label>
+          <select class="inputReal" id="status">
+            <option value="true"> Activo </option>
+            <option value="false"> Inactivo </option>
+          </select>
+        </div>
+      </div>
+          <label class="labelReal" for="description">Descripción</label>
+          <textarea
+            rows="6"
+            class="inputReal"
+            type="text"
+            id="description"
+            placeHolder="Descripción"
+          ></textarea>
+      <button class="button hidden" id="btnCancelEdit"> CANCEL EDIT </button>
+      <button class="button hidden" id="btnSubmitEdit"> SUBMIT EDIT </button>
       <button class="button" id="btnSend"> E N V I A R </button>
     </form>
   </div>

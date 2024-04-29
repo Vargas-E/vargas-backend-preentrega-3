@@ -13,8 +13,6 @@ const chatService = new ChatService();
 const socket = require("socket.io");
 const UserDto = require("../dto/user.dto.js");
 
-
-
 class ViewsController {
   async renderCart(req, res) {
     const user = req.user;
@@ -57,7 +55,7 @@ class ViewsController {
       const product = await productsServices.getProductById(id);
       res.render("product", {
         product: product,
-        user: dtoUser
+        user: dtoUser,
       });
     } catch (err) {
       res.status(500).json({ error: err });
@@ -112,9 +110,23 @@ class ViewsController {
 
         socket.on("addProduct", async (newProduct) => {
           const addResponse = await productsServices.addProduct(newProduct);
-          if (addResponse == `Product already exists`) {
+          if (addResponse == false) {
+            console.log("server product already Exists");
             io.sockets.emit("products", false);
+          } else {
+            console.log("hice bien el producto!!");
+            const products = await productsServices.getProductsNoPaginate();
+            console.log("products in server:", products);
+            io.sockets.emit("products", products);
           }
+        });
+
+        socket.on("updateProduct", async (args) => {
+          console.log("argssss:", args);
+          const updateResponse = await productsServices.updateProduct(
+            args.productId,
+            args.productData
+          );
           io.sockets.emit(
             "products",
             await productsServices.getProductsNoPaginate()
@@ -164,19 +176,19 @@ class ViewsController {
     try {
       io.on("connection", (socket) => {
         console.log("Initiating CHAT websocket connection");
-        socket.on("chat", async() => {
+        socket.on("chat", async () => {
           const chat = await chatService.getChat();
           io.emit("chat", chat);
         });
-  
+
         socket.on("newMessage", async (newMessage) => {
           await chatService.addMessageToChat(newMessage);
           const newChat = await chatService.getChat();
           io.emit("chat", newChat);
         });
       });
-  
-      res.render("chat", {active: { chat: true },  user: dtoUser,});
+
+      res.render("chat", { active: { chat: true }, user: dtoUser });
     } catch (err) {
       res.status(500).json({ error: "server error" });
     }

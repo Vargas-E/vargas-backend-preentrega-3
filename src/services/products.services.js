@@ -56,8 +56,9 @@ class ProductsService {
     const productExists = await productsRepository.getProductByCode(
       newProduct.code
     );
+    console.log("productExists:", productExists);
     if (productExists) {
-      return "Product code already exists, Product code must be unique";
+      return false;
     }
     const product = await productsRepository.addProduct(newProduct);
     return product;

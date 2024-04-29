@@ -10,12 +10,17 @@ body {
     font-style: normal;
 }
 
+
 h1 {
     color: black;
     text-align: center;
     font-size: 25;
     padding: 2rem;
 }
+
+input[disabled] {
+    color: white;
+  }
 
 .button {
     color: white;
@@ -170,6 +175,7 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 50%;
     gap: 0.5rem;
     padding: 1rem;
 }
@@ -266,7 +272,7 @@ h1 {
 
 .input {
     border-radius: 10px;
-    border: 1px solid 1A3A3A;
+    border: 1px solid #1A3A3A;
     padding: 1rem 0.5rem;
     margin: 1rem 0rem;
 }
@@ -305,7 +311,7 @@ h1 {
 .inputReal {
     padding: 1rem 0.5rem;
     margin: 0.5rem;
-    border: 3px solid #4F517D;
+    border: 3px solid #1A3A3A;
     border-radius: 10px;
 }
 
@@ -318,26 +324,66 @@ h1 {
     display: flex;
     border-radius: 15px;
     padding: 1rem;
-    max-width: 1000px;
+    max-width: 1300px;
     margin: auto;
+    margin-top: 2rem;
     justify-content: space-between;
-    background-color: #4F517D;
+    background-color: #1A3A3A;
+    height: 80vh;
+}
+
+.realtimeProductsContainer {
+    scrollbar-color: #0c1b1b #009B72;
+    width: 55%;
+    overflow-y: scroll;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
 }
 
 .formReal {
+    color: white;
+    margin-left: 1rem;
     display: flex;
     flex-direction: column;
     width: 45%;
-    background-color: #A997DF;
-    max-height: 85vh;
-    justify-content: center;
+    background-color: #0c1b1b;
+    justify-content: start;
     border-radius: 10px;
 }
 
+
+.card {
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    background-color: lightgreen;
+    margin-bottom: 1rem;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.formRow {
+    display: flex;
+}
+
+.labelAndInput {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+#btnSend {
+    bottom: 0;
+}
+
+
 /* profile */
-
-
-
 .profilePage {
     display: flex;
     flex-direction: column;
@@ -382,6 +428,11 @@ h1 {
     width: 200px;
     margin: 1rem 0 5rem 0;
 }
+
+.hidden {
+    display: none;
+}
+
 
 
 
@@ -490,7 +541,7 @@ h1 {
 
 .desc {
     display: flex;
-    margin:auto;
+    margin: auto;
     font-size: 1.1rem;
     font-style: italic;
 }
