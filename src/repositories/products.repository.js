@@ -71,7 +71,7 @@ class ProductsRepository {
         thumbnails: newProduct.thumbnails || [],
       });
       product.save();
-      return product;
+      return newProduct;
     } catch (err) {
       console.log("Error al agregar producto:", err);
       throw new Error(`Error mongo (add product): ${err}`);

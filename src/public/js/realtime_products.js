@@ -4,8 +4,6 @@ const cancelButton = document.getElementById("btnCancelEdit");
 const submitButton = document.getElementById("btnSubmitEdit");
 let editedProduct;
 
-socket.emit("hola", "holaaa server");
-
 socket.on("products", (data) => {
   console.log("data:", data);
   if (data === false) {
@@ -16,6 +14,7 @@ socket.on("products", (data) => {
   } else {
     console.log("socketProductos");
     renderProducts(data);
+    cancelEdit();
   }
 });
 
@@ -124,7 +123,6 @@ const addProduct = (edit) => {
         confirmButtonColor: "#1A3A3A",
       });
     }
-    cancelEdit();
   }
 };
 

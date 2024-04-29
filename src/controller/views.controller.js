@@ -115,6 +115,9 @@ class ViewsController {
             io.sockets.emit("products", false);
           } else {
             console.log("hice bien el producto!!");
+            await new Promise((resolve) => {
+              setTimeout(resolve, 300);
+            });
             const products = await productsServices.getProductsNoPaginate();
             console.log("products in server:", products);
             io.sockets.emit("products", products);
