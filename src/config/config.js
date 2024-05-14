@@ -9,4 +9,6 @@ dotenv.config({
 
 const configObject = {mongo_url: process.env.MONGO_URL};
 
+console.log(`using ${mode} environment`);
+
 module.exports = configObject;
